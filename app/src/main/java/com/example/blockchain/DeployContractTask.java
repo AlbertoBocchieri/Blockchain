@@ -38,28 +38,26 @@ public class DeployContractTask extends AsyncTask<Void, Void, String> {
         System.out.println("Do in background start...");
         int chainId=1337;
         try {
-            // Definisci il gas provider
+            // Definisco il gas provider
             BigInteger gasPrice = BigInteger.valueOf(20_000_000_000L);
             BigInteger gasLimit = BigInteger.valueOf(4_300_000L);
             ContractGasProvider gasProvider = new StaticGasProvider(gasPrice,gasLimit);
 
-
-            // Crea il RawTransactionManager
+            //Creo il RawTransactionManager
             TransactionManager transactionManager = new RawTransactionManager(web3, credentials,chainId);
 
-            // Effettua il deploy del contratto
+            //Effettuo il deploy del contratto
             Storage myContract = Storage.deploy(
                     web3,
                     transactionManager,
-                    gasProvider // Sostituisci con i parametri del costruttore del tuo contratto
+                    gasProvider
+                    //Qui gli eventuali parametri del costruttore del contratto
             ).send();
 
-            // Restituisci l'indirizzo del contratto
-
+            System.out.println("Do in background ending");
+            //indirizzo del contratto
             return myContract.getContractAddress();
 
-            // Restituisci l'indirizzo del contratto
-            //return storage.getContractAddress();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -68,7 +66,7 @@ public class DeployContractTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String contractAddress) {
-        System.out.println("Indirizzo contratto: "+contractAddress);
+        //System.out.println("Indirizzo contratto: "+contractAddress);
         if (contractAddress != null) {
             activity.set_contractAddress(contractAddress);
         } else {
